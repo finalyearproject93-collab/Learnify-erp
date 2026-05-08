@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Georgia', Cambria, 'Times New Roman', serif;
+    background-color: #e8ddd0;
+    color: #1c1b18;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    color: #2a2825;
+    letter-spacing: -0.01em;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #c9b89a #f5f0eb;
+  }
+  *::-webkit-scrollbar { width: 6px; height: 6px; }
+  *::-webkit-scrollbar-track { background: #f5f0eb; }
+  *::-webkit-scrollbar-thumb { background: #c9b89a; border-radius: 3px; }
+}
