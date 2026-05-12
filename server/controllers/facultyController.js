@@ -177,6 +177,30 @@ const createSubject = async (req, res) => {
 
 const getAllStudents = async (req, res) => {
   try {
+    // If subject_id is provided, filter students by the subject's course
+    const { subject_id } = req.query;
+
+    if (subject_id) {
+      // Get the course_id of the subject first
+      const [[subject]] = await pool.query(
+        'SELECT course_id FROM subjects WHERE id = ?',
+        [parseInt(subject_id)]
+      );
+      if (!subject) return res.status(404).json({ message: 'Subject not found' });
+
+      const [rows] = await pool.query(
+        `SELECT s.id, s.roll_number, s.full_name, s.department, s.semester,
+                c.course_name
+         FROM students s
+         LEFT JOIN courses c ON c.id = s.course_id
+         WHERE s.course_id = ?
+         ORDER BY s.roll_number`,
+        [subject.course_id]
+      );
+      return res.json({ students: rows });
+    }
+
+    // No filter — return all (used elsewhere)
     const [rows] = await pool.query(
       `SELECT s.id, s.roll_number, s.full_name, s.department, s.semester,
               c.course_name
@@ -185,6 +209,29 @@ const getAllStudents = async (req, res) => {
        ORDER BY s.full_name`
     );
     res.json({ students: rows });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+
+const unenrollStudent = async (req, res) => {
+  try {
+    const { subject_id, student_id } = req.body;
+    const userId = req.user.id;
+
+    const [[lecturer]] = await pool.query('SELECT id FROM lecturers WHERE user_id = ?', [userId]);
+    if (!lecturer) return res.status(404).json({ message: 'Lecturer not found' });
+
+    const [result] = await pool.query(
+      'DELETE FROM subject_enrollments WHERE subject_id = ? AND student_id = ?',
+      [subject_id, student_id]
+    );
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: 'Enrollment not found' });
+    }
+
+    res.json({ message: 'Student unenrolled successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
@@ -286,5 +333,5 @@ const getAttendanceForSubject = async (req, res) => {
 
 module.exports = {
   getProfile, getAssignedSubjects, getStudentsBySubject, markAttendance, uploadMarks, getAttendanceReport,
-  createSubject, getAllStudents, enrollStudent, getEnrolledStudents, getMarksForSubject, deleteMark, getAttendanceForSubject
+  createSubject, getAllStudents, enrollStudent, unenrollStudent, getEnrolledStudents, getMarksForSubject, deleteMark, getAttendanceForSubject
 };

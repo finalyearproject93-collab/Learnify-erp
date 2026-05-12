@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { authenticate, authorize } = require('../middleware/auth');
 const {
-  getDashboardStats, getAllUsers, createUser, deleteUser,
+  getDashboardStats, getAllUsers, createUser, updateUser, deleteUser,
   getAttendanceStats, getMarksStats,
   getCourses, createCourse, deleteCourse, getSubjects, createSubject, deleteSubject
 } = require('../controllers/adminController');
@@ -18,6 +18,7 @@ router.use(authorize(['admin']));
 router.get('/dashboard-stats', getDashboardStats);
 router.get('/users', getAllUsers);
 router.post('/users', createUser);
+router.put('/users/:id', updateUser);
 router.delete('/users/:id', deleteUser);
 router.get('/attendance-stats', getAttendanceStats);
 router.get('/marks-stats', getMarksStats);

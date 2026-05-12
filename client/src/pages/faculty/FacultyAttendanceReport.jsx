@@ -42,14 +42,14 @@ const FacultyAttendanceReport = () => {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">Attendance Report</h1>
+        <h1 className="text-2xl font-bold text-pine-900">Attendance Report</h1>
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+      <div className="bg-cream border border-pine-100 rounded-xl p-6 shadow-sm">
         <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-1">Select Subject</label>
+          <label className="block text-sm font-semibold text-pine-600 uppercase tracking-wider mb-1.5">Select Subject</label>
           <select value={selectedSubject} onChange={handleSubjectChange}
-            className="w-full md:w-96 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500">
+            className="w-full md:w-96 px-4 py-2.5 border border-pine-200 rounded-lg bg-cream text-pine-800 focus:outline-none focus:ring-2 focus:ring-pine-400">
             <option value="">Select Subject</option>
             {subjects.map(s => (
               <option key={s.id} value={s.id}>{s.subject_name} ({s.course_name})</option>
@@ -59,45 +59,45 @@ const FacultyAttendanceReport = () => {
 
         {selectedSubject && loading && (
           <div className="flex items-center justify-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-pine-600"></div>
           </div>
         )}
 
         {selectedSubject && !loading && report.length > 0 && (
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-            <div className="px-6 py-4 border-b border-gray-100 flex items-center gap-2">
-              <BarChart3 className="w-5 h-5 text-primary-600" />
-              <h2 className="text-lg font-semibold text-gray-900">Student-wise Attendance</h2>
+          <div className="bg-cream border border-pine-100 rounded-xl overflow-hidden">
+            <div className="px-6 py-4 border-b border-pine-100 flex items-center gap-2">
+              <BarChart3 className="w-5 h-5 text-pine-600" />
+              <h2 className="text-lg font-semibold text-pine-900">Student-wise Attendance</h2>
             </div>
             <table className="w-full">
-              <thead className="bg-gray-50">
+              <thead style={{ backgroundColor: "#eeebd8" }}>
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Roll No</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Total Classes</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Present</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Percentage</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-pine-600 uppercase">Roll No</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-pine-600 uppercase">Name</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-pine-600 uppercase">Total Classes</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-pine-600 uppercase">Present</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-pine-600 uppercase">Percentage</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-pine-600 uppercase">Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y divide-pine-100">
                 {report.map((row, index) => (
-                  <tr key={index} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 text-sm text-gray-900">{row.roll_number}</td>
-                    <td className="px-6 py-4 text-sm font-medium text-gray-900">{row.full_name}</td>
-                    <td className="px-6 py-4 text-sm text-gray-600">{row.total_classes}</td>
-                    <td className="px-6 py-4 text-sm text-gray-600">{row.present_count}</td>
+                  <tr key={index} className="hover:bg-pine-50">
+                    <td className="px-6 py-4 text-sm text-pine-900">{row.roll_number}</td>
+                    <td className="px-6 py-4 text-sm font-medium text-pine-900">{row.full_name}</td>
+                    <td className="px-6 py-4 text-sm text-pine-600">{row.total_classes}</td>
+                    <td className="px-6 py-4 text-sm text-pine-600">{row.present_count}</td>
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-2">
                         <div className="w-24 bg-gray-200 rounded-full h-2">
                           <div className="bg-green-500 h-2 rounded-full transition-all" style={{ width: `${Math.min(row.percentage, 100)}%` }}></div>
                         </div>
-                        <span className="text-sm font-medium text-gray-900">{row.percentage}%</span>
+                        <span className="text-sm font-medium text-pine-900">{row.percentage}%</span>
                       </div>
                     </td>
                     <td className="px-6 py-4">
                       {row.percentage >= 75 ? (
-                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">
+                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-pine-100 text-pine-700">
                           <CheckCircle className="w-3 h-3" /> Good
                         </span>
                       ) : (
@@ -114,7 +114,7 @@ const FacultyAttendanceReport = () => {
         )}
 
         {selectedSubject && report.length === 0 && !loading && (
-          <div className="text-center py-12 text-gray-500">No attendance data found for this subject</div>
+          <div className="text-center py-12 text-pine-500">No attendance data found for this subject</div>
         )}
       </div>
     </div>
@@ -122,3 +122,4 @@ const FacultyAttendanceReport = () => {
 };
 
 export default FacultyAttendanceReport;
+

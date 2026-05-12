@@ -45,7 +45,7 @@ const FacultySubjects = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-96">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-pine-600"></div>
       </div>
     );
   }
@@ -53,18 +53,18 @@ const FacultySubjects = () => {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">My Subjects</h1>
+        <h1 className="text-2xl font-bold text-pine-900">My Subjects</h1>
         <button onClick={() => setShowModal(true)}
-          className="flex items-center gap-2 bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition">
+          className="flex items-center gap-2 bg-pine-700 text-cream px-4 py-2 rounded-lg hover:bg-pine-800 transition">
           <Plus className="w-4 h-4" /> Add Subject
         </button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {subjects.map((subject, index) => (
-          <div key={index} className="bg-white rounded-xl shadow-sm p-5 border border-gray-100">
+          <div key={index} className="bg-cream rounded-xl shadow-sm p-5 border border-pine-100">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="font-semibold text-gray-900">{subject.subject_name}</h3>
+              <h3 className="font-semibold text-pine-900">{subject.subject_name}</h3>
               <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
                 subject.subject_type === 'lab' ? 'bg-purple-100 text-purple-700' : 'bg-blue-100 text-blue-700'
               }`}>
@@ -72,34 +72,34 @@ const FacultySubjects = () => {
                 {subject.subject_type === 'lab' ? 'Lab' : 'Theory'}
               </span>
             </div>
-            <p className="text-sm text-gray-500">{subject.course_name}</p>
-            <p className="text-sm text-gray-500">Semester {subject.semester} | Year {subject.academic_year}</p>
+            <p className="text-sm text-pine-500">{subject.course_name}</p>
+            <p className="text-sm text-pine-500">Semester {subject.semester} | Year {subject.academic_year}</p>
           </div>
         ))}
       </div>
 
       {subjects.length === 0 && (
-        <div className="text-center py-12 text-gray-500">No subjects assigned yet. Add your first subject!</div>
+        <div className="text-center py-12 text-pine-500">No subjects assigned yet. Add your first subject!</div>
       )}
 
       {showModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl p-6 w-full max-w-md">
+          <div className="bg-cream rounded-xl p-6 w-full max-w-md">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold text-gray-900">Add New Subject</h2>
-              <button onClick={() => { setShowModal(false); setError(''); }} className="text-gray-400 hover:text-gray-600"><X className="w-5 h-5" /></button>
+              <h2 className="text-xl font-bold text-pine-900">Add New Subject</h2>
+              <button onClick={() => { setShowModal(false); setError(''); }} className="text-gray-400 hover:text-pine-600"><X className="w-5 h-5" /></button>
             </div>
             {error && <div className="mb-4 p-3 bg-red-50 text-red-700 rounded-lg text-sm">{error}</div>}
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Subject Name</label>
+                <label className="block text-sm font-semibold text-pine-600 uppercase tracking-wider mb-1.5">Subject Name</label>
                 <input type="text" required value={form.subject_name || ''} onChange={e => setForm({...form, subject_name: e.target.value})}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500" />
+                  className="w-full px-4 py-2 border border-pine-200 rounded-lg bg-cream text-pine-800 focus:outline-none focus:ring-2 focus:ring-pine-400" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Course</label>
+                <label className="block text-sm font-semibold text-pine-600 uppercase tracking-wider mb-1.5">Course</label>
                 <select required value={form.course_id || ''} onChange={e => setForm({...form, course_id: e.target.value})}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500">
+                  className="w-full px-4 py-2 border border-pine-200 rounded-lg bg-cream text-pine-800 focus:outline-none focus:ring-2 focus:ring-pine-400">
                   <option value="">Select Course</option>
                   {courses.map(c => (
                     <option key={c.id} value={c.id}>{c.course_name}</option>
@@ -108,32 +108,32 @@ const FacultySubjects = () => {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Semester</label>
+                  <label className="block text-sm font-semibold text-pine-600 uppercase tracking-wider mb-1.5">Semester</label>
                   <input type="number" min="1" max="10" required value={form.semester || ''} onChange={e => setForm({...form, semester: e.target.value})}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500" />
+                    className="w-full px-4 py-2 border border-pine-200 rounded-lg bg-cream text-pine-800 focus:outline-none focus:ring-2 focus:ring-pine-400" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Credits</label>
+                  <label className="block text-sm font-semibold text-pine-600 uppercase tracking-wider mb-1.5">Credits</label>
                   <input type="number" min="1" max="10" required value={form.credits || ''} onChange={e => setForm({...form, credits: e.target.value})}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500" />
+                    className="w-full px-4 py-2 border border-pine-200 rounded-lg bg-cream text-pine-800 focus:outline-none focus:ring-2 focus:ring-pine-400" />
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Subject Type</label>
+                <label className="block text-sm font-semibold text-pine-600 uppercase tracking-wider mb-1.5">Subject Type</label>
                 <div className="flex gap-4">
                   <label className="flex items-center gap-2 cursor-pointer">
                     <input type="radio" name="subject_type" value="theory" checked={form.subject_type === 'theory'} onChange={e => setForm({...form, subject_type: e.target.value})}
-                      className="w-4 h-4 text-primary-600" />
+                      className="w-4 h-4 text-pine-600" />
                     <span className="text-sm">Theory</span>
                   </label>
                   <label className="flex items-center gap-2 cursor-pointer">
                     <input type="radio" name="subject_type" value="lab" checked={form.subject_type === 'lab'} onChange={e => setForm({...form, subject_type: e.target.value})}
-                      className="w-4 h-4 text-primary-600" />
+                      className="w-4 h-4 text-pine-600" />
                     <span className="text-sm">Lab</span>
                   </label>
                 </div>
               </div>
-              <button type="submit" className="w-full bg-primary-600 text-white py-2.5 rounded-lg hover:bg-primary-700 transition font-medium">Create Subject</button>
+              <button type="submit" className="w-full bg-pine-700 text-cream py-2.5 rounded-lg hover:bg-pine-800 transition font-medium">Create Subject</button>
             </form>
           </div>
         </div>
@@ -143,3 +143,4 @@ const FacultySubjects = () => {
 };
 
 export default FacultySubjects;
+

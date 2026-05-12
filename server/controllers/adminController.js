@@ -70,7 +70,7 @@ const createUser = async (req, res) => {
       );
       await connection.query(
         'INSERT INTO students (user_id, roll_number, full_name, course_id, department, semester, year, phone, address, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-        [userResult.insertId, roll_number, full_name, course_id ? parseInt(course_id) : null, dept, semester || 1, 1, phone || null, address || null, studentEmail]
+        [userResult.insertId, roll_number, full_name, course_id ? parseInt(course_id) : null, dept, parseInt(semester) || 1, 1, phone || null, address || null, studentEmail]
       );
     } else if (role === 'lecturer') {
       const { employee_id } = req.body;
@@ -107,6 +107,62 @@ const createUser = async (req, res) => {
     res.status(500).json({ message: 'Server error', error: error.message });
   } finally {
     connection.release();
+  }
+};
+
+const updateUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { full_name, semester, course_id, email, phone } = req.body;
+
+    // Find the user's role first
+    const [[user]] = await pool.query('SELECT role FROM users WHERE id = ?', [id]);
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    if (user.role === 'student') {
+      // Derive department from course if course_id changed
+      let dept = null;
+      if (course_id) {
+        const [[course]] = await pool.query('SELECT department FROM courses WHERE id = ?', [parseInt(course_id)]);
+        if (course) dept = course.department;
+      }
+
+      await pool.query(
+        `UPDATE students SET
+          full_name   = COALESCE(?, full_name),
+          semester    = COALESCE(?, semester),
+          course_id   = COALESCE(?, course_id),
+          department  = COALESCE(?, department),
+          email       = COALESCE(?, email),
+          phone       = COALESCE(?, phone)
+         WHERE user_id = ?`,
+        [full_name || null, semester ? parseInt(semester) : null,
+         course_id ? parseInt(course_id) : null, dept,
+         email || null, phone || null, id]
+      );
+    } else if (user.role === 'lecturer') {
+      await pool.query(
+        `UPDATE lecturers SET
+          full_name = COALESCE(?, full_name),
+          email     = COALESCE(?, email),
+          phone     = COALESCE(?, phone)
+         WHERE user_id = ?`,
+        [full_name || null, email || null, phone || null, id]
+      );
+    } else if (user.role === 'admin') {
+      await pool.query(
+        `UPDATE admins SET
+          full_name = COALESCE(?, full_name),
+          email     = COALESCE(?, email),
+          phone     = COALESCE(?, phone)
+         WHERE user_id = ?`,
+        [full_name || null, email || null, phone || null, id]
+      );
+    }
+
+    res.json({ message: 'User updated successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
 
@@ -237,7 +293,7 @@ const deleteSubject = async (req, res) => {
 };
 
 module.exports = {
-  getDashboardStats, getAllUsers, createUser, deleteUser,
+  getDashboardStats, getAllUsers, createUser, updateUser, deleteUser,
   getAttendanceStats, getMarksStats,
   getCourses, createCourse, deleteCourse, getSubjects, createSubject, deleteSubject
 };

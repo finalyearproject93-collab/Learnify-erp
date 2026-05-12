@@ -109,14 +109,14 @@ const UploadMarks = () => {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-gray-900">Upload Marks</h1>
+      <h1 className="text-2xl font-bold text-pine-900">Upload Marks</h1>
 
-      <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+      <div className="bg-cream border border-pine-100 rounded-xl p-6 shadow-sm">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Subject</label>
+            <label className="block text-sm font-semibold text-pine-600 uppercase tracking-wider mb-1.5">Subject</label>
             <select value={selectedSubject} onChange={handleSubjectChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500">
+              className="w-full px-4 py-2 border border-pine-200 rounded-lg bg-cream text-pine-800 focus:outline-none focus:ring-2 focus:ring-pine-400">
               <option value="">Select Subject</option>
               {subjects.map(s => (
                 <option key={s.id} value={s.id}>{s.subject_name} ({s.course_name})</option>
@@ -124,9 +124,9 @@ const UploadMarks = () => {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Exam Type</label>
+            <label className="block text-sm font-semibold text-pine-600 uppercase tracking-wider mb-1.5">Exam Type</label>
             <select value={examType} onChange={e => setExamType(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500">
+              className="w-full px-4 py-2 border border-pine-200 rounded-lg bg-cream text-pine-800 focus:outline-none focus:ring-2 focus:ring-pine-400">
               <option value="">Select Exam Type</option>
               {EXAM_TYPES.map(e => (
                 <option key={e.value} value={e.value}>{e.label} (Max: {e.maxMarks})</option>
@@ -142,31 +142,31 @@ const UploadMarks = () => {
         )}
 
         {message && (
-          <div className={`mb-4 p-3 rounded-lg text-sm ${message.includes('success') ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
+          <div className={`mb-4 p-3 rounded-lg text-sm ${message.includes('success') ? 'bg-pine-50 text-pine-700' : 'bg-red-50 text-red-700'}`}>
             {message}
           </div>
         )}
 
         {selectedSubject && examType && students.length > 0 && (
           <>
-            <div className="overflow-hidden rounded-xl border border-gray-100">
+            <div className="overflow-hidden rounded-xl border border-pine-100">
               <table className="w-full">
-                <thead className="bg-gray-50">
+                <thead style={{ backgroundColor: "#eeebd8" }}>
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Roll No</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Course</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-pine-600 uppercase">Roll No</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-pine-600 uppercase">Name</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-pine-600 uppercase">Course</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-pine-600 uppercase">
                       Marks Obtained <span className="text-gray-400 font-normal">(out of {maxMarks})</span>
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-100">
+                <tbody className="divide-y divide-pine-100">
                   {students.map(student => (
-                    <tr key={student.id} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 text-sm text-gray-900">{student.roll_number}</td>
-                      <td className="px-6 py-4 text-sm font-medium text-gray-900">{student.full_name}</td>
-                      <td className="px-6 py-4 text-sm text-gray-600">{student.course_name || student.department || '-'}</td>
+                    <tr key={student.id} className="hover:bg-pine-50">
+                      <td className="px-6 py-4 text-sm text-pine-900">{student.roll_number}</td>
+                      <td className="px-6 py-4 text-sm font-medium text-pine-900">{student.full_name}</td>
+                      <td className="px-6 py-4 text-sm text-pine-600">{student.course_name || student.department || '-'}</td>
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-2">
                           <input
@@ -179,7 +179,7 @@ const UploadMarks = () => {
                             placeholder="0"
                             className="w-24 px-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500"
                           />
-                          <span className="text-sm text-gray-400">/ {maxMarks}</span>
+                          <span className="text-sm text-pine-400">/ {maxMarks}</span>
                         </div>
                       </td>
                     </tr>
@@ -189,9 +189,9 @@ const UploadMarks = () => {
             </div>
 
             <button onClick={handleSubmit} disabled={loading}
-              className="mt-6 w-full bg-primary-600 text-white py-2.5 rounded-lg hover:bg-primary-700 transition font-medium flex items-center justify-center gap-2 disabled:opacity-50">
+              className="mt-6 w-full bg-pine-700 text-cream py-2.5 rounded-lg hover:bg-pine-800 transition font-medium flex items-center justify-center gap-2 disabled:opacity-50">
               {loading ? (
-                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white" />
+                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-cream" />
               ) : (
                 <><Save className="w-4 h-4" /> Upload Marks</>
               )}
@@ -200,15 +200,15 @@ const UploadMarks = () => {
         )}
 
         {selectedSubject && !examType && students.length > 0 && (
-          <div className="text-center py-8 text-gray-400">Select an exam type to enter marks</div>
+          <div className="text-center py-8 text-pine-400">Select an exam type to enter marks</div>
         )}
 
         {selectedSubject && students.length === 0 && (
-          <div className="text-center py-12 text-gray-500">No students enrolled for this subject yet</div>
+          <div className="text-center py-12 text-pine-500">No students enrolled for this subject yet</div>
         )}
 
         {!selectedSubject && (
-          <div className="text-center py-12 text-gray-400">Select a subject to get started</div>
+          <div className="text-center py-12 text-pine-400">Select a subject to get started</div>
         )}
       </div>
     </div>
@@ -216,3 +216,4 @@ const UploadMarks = () => {
 };
 
 export default UploadMarks;
+

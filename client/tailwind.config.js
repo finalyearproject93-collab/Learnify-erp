@@ -7,37 +7,28 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Beige & dark grey palette — matches the Wells reference image
-        primary: {
-          50:  '#f5f0eb',  // lightest beige tint (page backgrounds)
-          100: '#ede5d8',  // light beige (hover states, subtle fills)
-          200: '#ddd0bc',  // soft beige (borders, dividers)
-          300: '#c9b89a',  // mid beige (muted accents)
-          400: '#b09a78',  // warm tan
-          500: '#8c7355',  // medium brown-beige (secondary actions)
-          600: '#6b5540',  // dark warm brown (primary buttons, links)
-          700: '#4a3a2b',  // deep brown
-          800: '#2e2318',  // very dark brown
-          900: '#1a1410',  // near black brown
+        // ── Exact palette from the image ──────────────────────────
+        pine: {
+          50:  '#eef1e8',   // very light tint
+          100: '#d4dcc5',   // light green tint
+          200: '#aabb8c',   // soft olive
+          300: '#7f9a5a',   // mid olive
+          400: '#606C38',   // OLIVE GREEN  ← #606C38
+          500: '#4d5630',   // deeper olive
+          600: '#3a4024',   // dark olive
+          700: '#283618',   // PINE TREE    ← #283618
+          800: '#1e2912',   // deeper pine
+          900: '#14190b',   // near black green
         },
-        // Dark grey scale for text and UI chrome
-        charcoal: {
-          50:  '#f4f4f3',
-          100: '#e8e7e5',
-          200: '#d1cfcc',
-          300: '#b0ada8',
-          400: '#8a8680',
-          500: '#6b6760',
-          600: '#524f49',
-          700: '#3a3833',
-          800: '#2a2825',  // main dark grey (headings, sidebar)
-          900: '#1c1b18',  // deepest dark (body text)
+        cream: {
+          DEFAULT: '#FEFAE0', // CORNSILK    ← #FEFAE0
+          50:  '#FEFAE0',
+          100: '#fdf6c8',
+          200: '#fbf0a0',
+          300: '#f7e56a',
+          400: '#f2d83a',
+          500: '#e8c81a',
         },
-        beige: {
-          DEFAULT: '#e8ddd0',  // main beige background
-          light:   '#f2ece4',  // lighter beige (cards)
-          dark:    '#d4c5b0',  // darker beige (borders)
-        }
       },
       fontFamily: {
         sans: ['Georgia', 'Cambria', 'Times New Roman', 'serif'],

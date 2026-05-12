@@ -138,13 +138,13 @@ const EditMarks = () => {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-gray-900">Edit Marks</h1>
+      <h1 className="text-2xl font-bold text-pine-900">Edit Marks</h1>
 
-      <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+      <div className="bg-cream border border-pine-100 rounded-xl p-6 shadow-sm">
         <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-1">Subject</label>
+          <label className="block text-sm font-semibold text-pine-600 uppercase tracking-wider mb-1.5">Subject</label>
           <select value={selectedSubject} onChange={handleSubjectChange}
-            className="w-full md:w-96 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500">
+            className="w-full md:w-96 px-4 py-2.5 border border-pine-200 rounded-lg bg-cream text-pine-800 focus:outline-none focus:ring-2 focus:ring-pine-400">
             <option value="">Select Subject</option>
             {subjects.map(s => (
               <option key={s.id} value={s.id}>{s.subject_name} ({s.course_name})</option>
@@ -154,8 +154,8 @@ const EditMarks = () => {
 
         {message && (
           <div className={`mb-4 p-3 rounded-lg text-sm flex items-center gap-2 ${
-            messageType === 'success' ? 'bg-green-50 text-green-700'
-            : messageType === 'info' ? 'bg-blue-50 text-blue-700'
+            messageType === 'success' ? 'bg-pine-50 text-pine-700'
+            : messageType === 'info' ? 'bg-pine-50 text-pine-600'
             : 'bg-red-50 text-red-700'
           }`}>
             {messageType === 'success' ? <CheckCircle className="w-4 h-4" /> : <XCircle className="w-4 h-4" />}
@@ -167,27 +167,27 @@ const EditMarks = () => {
           <>
             {Object.entries(groupedMarks).map(([examType, examMarks]) => (
               <div key={examType} className="mb-6">
-                <h3 className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
-                  <FileText className="w-4 h-4 text-primary-600" />
+                <h3 className="text-sm font-semibold text-pine-700 mb-3 flex items-center gap-2">
+                  <FileText className="w-4 h-4 text-pine-600" />
                   {examType}
                   <span className="text-xs font-normal text-gray-400 ml-1">({examMarks.length} students)</span>
                 </h3>
-                <div className="rounded-xl border border-gray-100 overflow-hidden">
+                <div className="border border-pine-100 rounded-xl overflow-hidden">
                   <table className="w-full">
-                    <thead className="bg-gray-50">
+                    <thead style={{ backgroundColor: "#eeebd8" }}>
                       <tr>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Roll No</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Marks Obtained</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Max Marks</th>
-                        <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Delete</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-pine-600 uppercase">Roll No</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-pine-600 uppercase">Name</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-pine-600 uppercase">Marks Obtained</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-pine-600 uppercase">Max Marks</th>
+                        <th className="px-6 py-3 text-right text-xs font-medium text-pine-600 uppercase">Delete</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-gray-100">
+                    <tbody className="divide-y divide-pine-100">
                       {examMarks.map(mark => (
-                        <tr key={mark.id} className="hover:bg-gray-50">
-                          <td className="px-6 py-4 text-sm text-gray-900">{mark.roll_number}</td>
-                          <td className="px-6 py-4 text-sm font-medium text-gray-900">{mark.full_name}</td>
+                        <tr key={mark.id} className="hover:bg-pine-50">
+                          <td className="px-6 py-4 text-sm text-pine-900">{mark.roll_number}</td>
+                          <td className="px-6 py-4 text-sm font-medium text-pine-900">{mark.full_name}</td>
                           <td className="px-6 py-4">
                             <input
                               type="number"
@@ -198,7 +198,7 @@ const EditMarks = () => {
                               className="w-24 px-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500"
                             />
                           </td>
-                          <td className="px-6 py-4 text-sm text-gray-600">{mark.max_marks}</td>
+                          <td className="px-6 py-4 text-sm text-pine-600">{mark.max_marks}</td>
                           <td className="px-6 py-4 text-right">
                             <button
                               onClick={() => handleDelete(mark.id, mark.full_name, examType)}
@@ -222,9 +222,9 @@ const EditMarks = () => {
             ))}
 
             <button onClick={handleSubmit} disabled={loading}
-              className="mt-4 w-full bg-primary-600 text-white py-2.5 rounded-lg hover:bg-primary-700 transition font-medium flex items-center justify-center gap-2 disabled:opacity-50">
+              className="mt-4 w-full bg-pine-700 text-cream py-2.5 rounded-lg hover:bg-pine-800 transition font-medium flex items-center justify-center gap-2 disabled:opacity-50">
               {loading ? (
-                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white" />
+                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-cream" />
               ) : (
                 <><Save className="w-4 h-4" /> Save Changes</>
               )}
@@ -233,13 +233,13 @@ const EditMarks = () => {
         )}
 
         {selectedSubject && marks.length === 0 && (
-          <div className="text-center py-12 text-gray-500">
+          <div className="text-center py-12 text-pine-500">
             No marks recorded for this subject yet. Use Upload Marks to add marks.
           </div>
         )}
 
         {!selectedSubject && (
-          <div className="text-center py-12 text-gray-400">Select a subject to view marks</div>
+          <div className="text-center py-12 text-pine-400">Select a subject to view marks</div>
         )}
       </div>
     </div>
@@ -247,3 +247,4 @@ const EditMarks = () => {
 };
 
 export default EditMarks;
+
