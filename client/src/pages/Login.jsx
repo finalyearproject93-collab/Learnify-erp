@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { GraduationCap, User, Shield, ArrowRight, AlertCircle, WifiOff } from 'lucide-react';
+import { GraduationCap, ArrowRight, AlertCircle, WifiOff } from 'lucide-react';
 
 const Login = () => {
   const navigate = useNavigate();
   const { login, serverDown } = useAuth();
-  const [role, setRole] = useState('');
+
+  // Default to 'student' so the form fields are visible immediately
+  const [role, setRole] = useState('student');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -108,7 +110,6 @@ const Login = () => {
                   required
                   className={inputCls + ' appearance-none'}
                 >
-                  <option value="">Select Role</option>
                   <option value="student">Student</option>
                   <option value="lecturer">Faculty</option>
                   <option value="admin">Admin</option>
@@ -121,48 +122,44 @@ const Login = () => {
               </div>
             </div>
 
-            {role && (
-              <>
-                <div>
-                  <label className={labelCls}>{getUsernameLabel()}</label>
-                  <input
-                    type={role === 'admin' ? 'email' : 'text'}
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    required
-                    className={inputCls}
-                    placeholder={getUsernamePlaceholder()}
-                  />
-                </div>
+            <div>
+              <label className={labelCls}>{getUsernameLabel()}</label>
+              <input
+                type={role === 'admin' ? 'email' : 'text'}
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+                className={inputCls}
+                placeholder={getUsernamePlaceholder()}
+              />
+            </div>
 
-                <div>
-                  <label className={labelCls}>Password</label>
-                  <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    className={inputCls}
-                    placeholder="Enter password"
-                  />
-                  {passwordHint && (
-                    <p className="text-xs text-pine-400 mt-1">{passwordHint}</p>
-                  )}
-                </div>
+            <div>
+              <label className={labelCls}>Password</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className={inputCls}
+                placeholder="Enter password"
+              />
+              {passwordHint && (
+                <p className="text-xs text-pine-400 mt-1">{passwordHint}</p>
+              )}
+            </div>
 
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full bg-pine-700 text-cream py-2.5 rounded-full hover:bg-pine-800 transition font-semibold text-sm tracking-widest uppercase flex items-center justify-center gap-2 disabled:opacity-50 mt-2"
-                >
-                  {loading ? (
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-cream" />
-                  ) : (
-                    <>Sign In <ArrowRight size={16} /></>
-                  )}
-                </button>
-              </>
-            )}
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-pine-700 text-cream py-2.5 rounded-full hover:bg-pine-800 transition font-semibold text-sm tracking-widest uppercase flex items-center justify-center gap-2 disabled:opacity-50 mt-2"
+            >
+              {loading ? (
+                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-cream" />
+              ) : (
+                <>Sign In <ArrowRight size={16} /></>
+              )}
+            </button>
           </form>
 
           <p className="text-center text-sm text-pine-500 mt-6">

@@ -4,7 +4,8 @@ const { authenticate, authorize } = require('../middleware/auth');
 const {
   getDashboardStats, getAllUsers, createUser, updateUser, deleteUser,
   getAttendanceStats, getMarksStats,
-  getCourses, createCourse, deleteCourse, getSubjects, createSubject, deleteSubject
+  getCourses, createCourse, updateCourse, deleteCourse,
+  getSubjects, createSubject, updateSubject, deleteSubject
 } = require('../controllers/adminController');
 
 router.use(authenticate);
@@ -24,9 +25,11 @@ router.get('/attendance-stats', getAttendanceStats);
 router.get('/marks-stats', getMarksStats);
 
 router.post('/courses', createCourse);
+router.put('/courses/:id', updateCourse);
 router.delete('/courses/:id', deleteCourse);
 router.get('/subjects', getSubjects);
 router.post('/subjects', createSubject);
+router.put('/subjects/:id', updateSubject);
 router.delete('/subjects/:id', deleteSubject);
 
 module.exports = router;

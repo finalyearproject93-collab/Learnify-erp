@@ -5,7 +5,9 @@ const {
   getProfile,
   getAttendance,
   getMarks,
-  getNotifications
+  getNotifications,
+  getAttendanceReport,
+  getMarksReport
 } = require('../controllers/studentController');
 
 router.use(authenticate);
@@ -15,5 +17,7 @@ router.get('/profile', getProfile);
 router.get('/attendance', getAttendance);
 router.get('/marks', getMarks);
 router.get('/notifications', getNotifications);
+router.get('/download/attendance', getAttendanceReport);
+router.get('/download/marks', getMarksReport);
 
 module.exports = router;

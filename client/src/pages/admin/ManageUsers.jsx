@@ -43,16 +43,16 @@ const ManageUsers = () => {
 
   const openEdit = (user) => {
     setEditingUser(user);
+    const matchedCourse = courses.find(c => c.course_name === user.course_name);
     setEditData({
-      full_name: user.full_name,
-      email: user.email || '',
-      phone: user.phone || '',
-      semester: user.semester || '',
-      course_id: '',   // will be resolved by name match below
+      full_name:   user.full_name,
+      email:       user.email || '',
+      phone:       user.phone || '',
+      semester:    user.semester || '',
+      roll_number: user.roll_number || '',
+      employee_id: user.employee_id || '',
+      course_id:   matchedCourse?.id || '',
     });
-    // Pre-select course_id from course_name
-    const matched = courses.find(c => c.course_name === user.course_name);
-    if (matched) setEditData(d => ({ ...d, course_id: matched.id }));
     setEditError('');
     setShowEditModal(true);
   };
@@ -402,6 +402,13 @@ const ManageUsers = () => {
 
                 {editingUser.role === 'student' && (
                   <>
+                    <div>
+                      <label className={labelCls}>Roll Number</label>
+                      <input type="text" value={editData.roll_number || ''}
+                        onChange={e => setEditData({ ...editData, roll_number: e.target.value })}
+                        className={inputCls} placeholder="e.g., E26001" />
+                      <p className="text-xs text-pine-400 mt-1">Leave blank to keep current roll number</p>
+                    </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
                         <label className={labelCls}>Course</label>
@@ -425,6 +432,30 @@ const ManageUsers = () => {
                           ))}
                         </select>
                       </div>
+                    </div>
+                  </>
+                )}
+
+                {editingUser.role === 'lecturer' && (
+                  <>
+                    <div>
+                      <label className={labelCls}>Employee ID</label>
+                      <input type="text" value={editData.employee_id || ''}
+                        onChange={e => setEditData({ ...editData, employee_id: e.target.value })}
+                        className={inputCls} placeholder="e.g., EMP001" />
+                      <p className="text-xs text-pine-400 mt-1">Leave blank to keep current employee ID</p>
+                    </div>
+                    <div>
+                      <label className={labelCls}>Course</label>
+                      <select value={editData.course_id || ''}
+                        onChange={e => setEditData({ ...editData, course_id: e.target.value })}
+                        className={inputCls}>
+                        <option value="">— No course assigned —</option>
+                        {courses.map(c => (
+                          <option key={c.id} value={c.id}>{c.course_name}</option>
+                        ))}
+                      </select>
+                      <p className="text-xs text-pine-400 mt-1">Faculty will only see subjects from this course</p>
                     </div>
                   </>
                 )}

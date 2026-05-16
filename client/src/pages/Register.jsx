@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../utils/axios';
 import { useAuth } from '../context/AuthContext';
@@ -112,20 +112,6 @@ const Register = () => {
                 </select>
               </div>
             </div>
-            <div>
-              <label className={labelCls}>Email (optional)</label>
-              <input type="email" name="email" value={formData.email || ''} onChange={handleChange}
-                className={inputCls} placeholder="Email address" />
-            </div>
-            {formData.roll_number && (
-              <div className="bg-pine-50 border border-pine-200 rounded-lg p-3">
-                <p className="text-sm text-pine-700 font-medium">Auto-generated Password</p>
-                <div className="flex items-center gap-2 mt-1">
-                  <code className="bg-cream px-2 py-1 rounded text-pine-800 font-mono border border-pine-200">{formData.roll_number}</code>
-                  <span className="text-xs text-pine-500">(same as roll number)</span>
-                </div>
-              </div>
-            )}
           </>
         );
 

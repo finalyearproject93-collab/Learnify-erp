@@ -20,6 +20,7 @@ import FacultySubjects from './pages/faculty/FacultySubjects';
 import EnrollStudents from './pages/faculty/EnrollStudents';
 import EditMarks from './pages/faculty/EditMarks';
 import EditAttendance from './pages/faculty/EditAttendance';
+import SendNotification from './pages/faculty/SendNotification';
 
 const RoleBasedRedirect = () => {
   const { user, loading } = useAuth();
@@ -61,6 +62,7 @@ function App() {
           <Route path="edit-marks" element={<EditMarks />} />
           <Route path="edit-attendance" element={<EditAttendance />} />
           <Route path="attendance-report" element={<FacultyAttendanceReport />} />
+          <Route path="notifications" element={<SendNotification />} />
         </Route>
       </Routes>
     </AuthProvider>

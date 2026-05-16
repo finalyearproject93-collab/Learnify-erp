@@ -9,7 +9,7 @@ export default {
       colors: {
         // ── Exact palette from the image ──────────────────────────
         pine: {
-          50:  '#eef1e8',   // very light tint
+          50:  '#e8f0d8ff',   // very light tint
           100: '#d4dcc5',   // light green tint
           200: '#aabb8c',   // soft olive
           300: '#7f9a5a',   // mid olive

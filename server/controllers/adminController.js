@@ -29,8 +29,11 @@ const getAllUsers = async (req, res) => {
        LEFT JOIN courses c ON c.id = s.course_id`
     );
     const [lecturers] = await pool.query(
-      `SELECT u.id, l.employee_id, l.full_name, l.phone, l.email, 'lecturer' as role
-       FROM users u JOIN lecturers l ON u.id = l.user_id`
+      `SELECT u.id, l.employee_id, l.full_name, l.phone, l.email, l.course_id,
+              c.course_name, 'lecturer' as role
+       FROM users u
+       JOIN lecturers l ON u.id = l.user_id
+       LEFT JOIN courses c ON c.id = l.course_id`
     );
     const [admins] = await pool.query(
       `SELECT u.id, a.full_name, a.phone, a.email, 'admin' as role
@@ -113,14 +116,20 @@ const createUser = async (req, res) => {
 const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const { full_name, semester, course_id, email, phone } = req.body;
+    const { full_name, semester, course_id, email, phone, roll_number, employee_id } = req.body;
 
-    // Find the user's role first
     const [[user]] = await pool.query('SELECT role FROM users WHERE id = ?', [id]);
     if (!user) return res.status(404).json({ message: 'User not found' });
 
     if (user.role === 'student') {
-      // Derive department from course if course_id changed
+      // Check roll_number uniqueness if changing it
+      if (roll_number) {
+        const [[existing]] = await pool.query(
+          'SELECT id FROM students WHERE roll_number = ? AND user_id != ?', [roll_number, id]
+        );
+        if (existing) return res.status(400).json({ message: 'Roll number already in use by another student' });
+      }
+
       let dept = null;
       if (course_id) {
         const [[course]] = await pool.query('SELECT department FROM courses WHERE id = ?', [parseInt(course_id)]);
@@ -130,25 +139,55 @@ const updateUser = async (req, res) => {
       await pool.query(
         `UPDATE students SET
           full_name   = COALESCE(?, full_name),
+          roll_number = COALESCE(?, roll_number),
           semester    = COALESCE(?, semester),
           course_id   = COALESCE(?, course_id),
           department  = COALESCE(?, department),
           email       = COALESCE(?, email),
           phone       = COALESCE(?, phone)
          WHERE user_id = ?`,
-        [full_name || null, semester ? parseInt(semester) : null,
+        [full_name || null, roll_number || null,
+         semester ? parseInt(semester) : null,
          course_id ? parseInt(course_id) : null, dept,
          email || null, phone || null, id]
       );
+
+      // Also update the users.email if email changed
+      if (email) {
+        await pool.query('UPDATE users SET email = ? WHERE id = ?', [email, id]);
+      }
     } else if (user.role === 'lecturer') {
+      if (employee_id) {
+        const [[existing]] = await pool.query(
+          'SELECT id FROM lecturers WHERE employee_id = ? AND user_id != ?', [employee_id, id]
+        );
+        if (existing) return res.status(400).json({ message: 'Employee ID already in use by another faculty' });
+      }
+
+      // Derive department from course if course_id provided
+      let dept = null;
+      if (course_id) {
+        const [[course]] = await pool.query('SELECT department FROM courses WHERE id = ?', [parseInt(course_id)]);
+        if (course) dept = course.department;
+      }
+
       await pool.query(
         `UPDATE lecturers SET
-          full_name = COALESCE(?, full_name),
-          email     = COALESCE(?, email),
-          phone     = COALESCE(?, phone)
+          full_name   = COALESCE(?, full_name),
+          employee_id = COALESCE(?, employee_id),
+          course_id   = COALESCE(?, course_id),
+          department  = COALESCE(?, department),
+          email       = COALESCE(?, email),
+          phone       = COALESCE(?, phone)
          WHERE user_id = ?`,
-        [full_name || null, email || null, phone || null, id]
+        [full_name || null, employee_id || null,
+         course_id ? parseInt(course_id) : null, dept,
+         email || null, phone || null, id]
       );
+
+      if (email) {
+        await pool.query('UPDATE users SET email = ? WHERE id = ?', [email, id]);
+      }
     } else if (user.role === 'admin') {
       await pool.query(
         `UPDATE admins SET
@@ -231,6 +270,47 @@ const createCourse = async (req, res) => {
   }
 };
 
+const updateCourse = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { course_name, department, duration_years } = req.body;
+    await pool.query(
+      `UPDATE courses SET
+        course_name    = COALESCE(?, course_name),
+        department     = COALESCE(?, department),
+        duration_years = COALESCE(?, duration_years)
+       WHERE id = ?`,
+      [course_name || null, department || null,
+       duration_years ? parseInt(duration_years) : null, id]
+    );
+    res.json({ message: 'Course updated' });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+
+const updateSubject = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { subject_name, semester, credits, subject_type } = req.body;
+    await pool.query(
+      `UPDATE subjects SET
+        subject_name = COALESCE(?, subject_name),
+        semester     = COALESCE(?, semester),
+        credits      = COALESCE(?, credits),
+        subject_type = COALESCE(?, subject_type)
+       WHERE id = ?`,
+      [subject_name || null,
+       semester ? parseInt(semester) : null,
+       credits ? parseInt(credits) : null,
+       subject_type || null, id]
+    );
+    res.json({ message: 'Subject updated' });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+
 const deleteCourse = async (req, res) => {
   try {
     const { id } = req.params;
@@ -295,5 +375,6 @@ const deleteSubject = async (req, res) => {
 module.exports = {
   getDashboardStats, getAllUsers, createUser, updateUser, deleteUser,
   getAttendanceStats, getMarksStats,
-  getCourses, createCourse, deleteCourse, getSubjects, createSubject, deleteSubject
+  getCourses, createCourse, updateCourse, deleteCourse,
+  getSubjects, createSubject, updateSubject, deleteSubject
 };

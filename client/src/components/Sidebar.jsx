@@ -3,7 +3,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import {
   LayoutDashboard, Users, BookOpen, UserCheck,
-  FileText, UserCircle, CalendarCheck, BarChart3, Upload
+  FileText, UserCircle, CalendarCheck, BarChart3, Upload, Bell
 } from 'lucide-react';
 
 const Sidebar = () => {
@@ -32,6 +32,7 @@ const Sidebar = () => {
     { to: '/faculty/edit-marks',        label: 'Edit Marks',        icon: FileText },
     { to: '/faculty/edit-attendance',   label: 'Edit Attendance',   icon: CalendarCheck },
     { to: '/faculty/attendance-report', label: 'Attendance Report', icon: BarChart3 },
+    { to: '/faculty/notifications',     label: 'Send Notification', icon: Bell },
   ];
 
   const links = user?.role === 'admin'    ? adminLinks

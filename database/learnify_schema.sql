@@ -50,12 +50,14 @@ CREATE TABLE IF NOT EXISTS lecturers (
   id INT AUTO_INCREMENT PRIMARY KEY,
   user_id INT NOT NULL,
   employee_id VARCHAR(20) UNIQUE NOT NULL,
+  course_id INT,
   full_name VARCHAR(100) NOT NULL,
   department VARCHAR(50),
   phone VARCHAR(15),
   qualification VARCHAR(100),
   email VARCHAR(100),
-  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE SET NULL
 );
 
 -- Subjects table
