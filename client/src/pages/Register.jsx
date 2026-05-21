@@ -87,8 +87,8 @@ const Register = () => {
             <div>
               <label className={labelCls}>Roll Number</label>
               <input type="text" name="roll_number" required value={formData.roll_number || ''} onChange={handleChange}
-                className={inputCls} placeholder="e.g., E26001" />
-              <p className="text-xs text-pine-400 mt-1">Format: E + 2-digit year + 3-digit number</p>
+                className={inputCls} placeholder="Enter your Roll No..." />
+             
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
@@ -106,7 +106,7 @@ const Register = () => {
                 <select name="semester" required value={formData.semester || ''} onChange={handleChange}
                   className={inputCls}>
                   <option value="">Select</option>
-                  {[1,2,3,4,5,6,7,8].map(s => (
+                  {[1,2,3,4,5,6].map(s => (
                     <option key={s} value={s}>Semester {s}</option>
                   ))}
                 </select>
@@ -133,15 +133,7 @@ const Register = () => {
               <input type="email" name="email" value={formData.email || ''} onChange={handleChange}
                 className={inputCls} placeholder="Email address" />
             </div>
-            {formData.employee_id && (
-              <div className="bg-pine-50 border border-pine-200 rounded-lg p-3">
-                <p className="text-sm text-pine-700 font-medium">Auto-generated Password</p>
-                <div className="flex items-center gap-2 mt-1">
-                  <code className="bg-cream px-2 py-1 rounded text-pine-800 font-mono border border-pine-200">{formData.employee_id}</code>
-                  <span className="text-xs text-pine-500">(same as employee ID)</span>
-                </div>
-              </div>
-            )}
+            
           </>
         );
 

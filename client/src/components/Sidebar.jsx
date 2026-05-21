@@ -17,10 +17,11 @@ const Sidebar = () => {
   ];
 
   const studentLinks = [
-    { to: '/student/dashboard',  label: 'Dashboard',  icon: LayoutDashboard },
-    { to: '/student/attendance', label: 'Attendance', icon: CalendarCheck },
-    { to: '/student/marks',      label: 'Marks',      icon: FileText },
-    { to: '/student/profile',    label: 'Profile',    icon: UserCircle },
+    { to: '/student/dashboard',      label: 'Dashboard',      icon: LayoutDashboard },
+    { to: '/student/attendance',     label: 'Attendance',     icon: CalendarCheck },
+    { to: '/student/marks',          label: 'Marks',          icon: FileText },
+    { to: '/student/notifications',  label: 'Notifications',  icon: Bell },
+    { to: '/student/profile',        label: 'Profile',        icon: UserCircle },
   ];
 
   const facultyLinks = [

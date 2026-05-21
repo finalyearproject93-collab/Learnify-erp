@@ -12,6 +12,7 @@ import StudentDashboard from './pages/student/StudentDashboard';
 import StudentAttendance from './pages/student/StudentAttendance';
 import StudentMarks from './pages/student/StudentMarks';
 import StudentProfile from './pages/student/StudentProfile';
+import StudentNotifications from './pages/student/StudentNotifications';
 import FacultyDashboard from './pages/faculty/FacultyDashboard';
 import MarkAttendance from './pages/faculty/MarkAttendance';
 import UploadMarks from './pages/faculty/UploadMarks';
@@ -50,6 +51,7 @@ function App() {
           <Route path="dashboard" element={<StudentDashboard />} />
           <Route path="attendance" element={<StudentAttendance />} />
           <Route path="marks" element={<StudentMarks />} />
+          <Route path="notifications" element={<StudentNotifications />} />
           <Route path="profile" element={<StudentProfile />} />
         </Route>
 
