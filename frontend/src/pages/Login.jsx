@@ -25,17 +25,17 @@ const Login = () => {
 
   const getUsernamePlaceholder = () => {
     switch (role) {
-      case 'student':  return 'e.g. E26001';
-      case 'lecturer': return 'e.g. EMP001';
-      case 'admin':    return 'admin@example.com';
+      case 'student':  return 'Enter your Rollno';
+      case 'lecturer': return 'Enter your Employee ID';
+      case 'admin':    return '';
       default:         return 'Enter username';
     }
   };
 
   const getPasswordHint = () => {
     switch (role) {
-      case 'student':  return 'Default password is your roll number';
-      case 'lecturer': return 'Default password is your employee ID';
+      case 'student':  return '';
+      case 'lecturer': return '';
       default:         return null;
     }
   };
